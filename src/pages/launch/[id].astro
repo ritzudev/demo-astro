@@ -1,0 +1,23 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getLaunchBy } from '../../services/spacex'
+const { id } = Astro.params
+
+export const prerender = false
+
+let launch
+
+if (id) {
+  launch = await getLaunchBy({ id })
+}
+---
+
+<Layout title={`Lanzamiento ${id}`}>
+  <div class="py-32 max-w-xl mx-auto">
+    <picture class="flex justify-center">
+      <img class="py-4" src={launch?.links?.patch.small} alt="">
+    </picture>
+    <h1 class="font-bold text-xl">Launch #{launch?.flight_number}</h1>
+    <p>{launch?.details}</p>
+  </div>
+</Layout>
